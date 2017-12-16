@@ -10,17 +10,17 @@ pipeline {
       steps {
         sh 'javac -d . src/*.java'
         sh 'echo Main-Class: Rectangulator > MANIFEST.MF'
-        sh 'jar -cvmf MANIFEST.MF rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar *.class'
+        sh 'jar -cvmf MANIFEST.MF rectangle.jar *.class'
       }
       post {
         success {
-          archiveArtifacts artifacts: 'rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar', fingerprint: true
+          archiveArtifacts artifacts: 'rectangle.jar', fingerprint: true
         }
       }
     }
     stage('run') {
       steps {
-        sh 'java -jar rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar 7 9'
+        sh 'java -jar rectangle.jar 7 9'
       }
     }
     stage('Promote Development to Master') {
